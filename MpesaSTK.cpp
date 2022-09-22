@@ -26,7 +26,7 @@
 #include <HTTPClient.h>
 
 extern "C" {
-#include "crypto/base64.h"
+#include "base64.h"
 }
 
 #include "MpesaSTK.h"
@@ -134,11 +134,10 @@ String MpesaSTK::encoder64(String input){
 	char toEncode[input.length() + 1];
 	input.toCharArray(toEncode, input.length() + 1);
 	size_t outputLength;
-	unsigned char * encoded = base64_encode((const unsigned char *)toEncode, strlen(toEncode), &outputLength);
-	String encodedString = (const char*)encoded;
-	free(encoded);
-	encodedString.replace("\n", "");
-	return encodedString;
+	base64 b;
+	String encoded = b.encode((const unsigned char *)toEncode, strlen(toEncode));
+	encoded.replace("\n", "");
+	return encoded;
 }
 
 /*!
